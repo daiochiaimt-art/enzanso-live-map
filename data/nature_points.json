@@ -1,0 +1,9 @@
+{
+"type": "FeatureCollection",
+"name": "SELECT",
+"xy_coordinate_resolution": 1e-06,
+"features": [
+{ "type": "Feature", "properties": { "name": "た", "status": "い", "photo": "attachments/PXL_20260309_235710010.MP.jpg" }, "geometry": null },
+{ "type": "Feature", "properties": { "name": "B", "status": "34", "photo": "PXL_20260314_023255026.jpg" }, "geometry": null }
+]
+}
