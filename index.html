@@ -295,10 +295,9 @@
             style: function (feature) {
                 if (feature.geometry.type !== 'Point') {
                     return {
-                        color: '#555',
+                        stroke: false,  // ★枠線を完全に消す魔法のコード
                         fillColor: getThemeColor(feature.properties, feature.properties.surveyType), 
-                        fillOpacity: 0.7,
-                        weight: 1
+                        fillOpacity: 0.8  // ★枠線が消えた分、色を少し濃く（0.7→0.8）すると綺麗です
                     };
                 }
             },
