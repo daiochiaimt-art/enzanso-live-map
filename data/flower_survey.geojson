@@ -33,10 +33,10 @@
       "properties": {
         "site_id": "{8c18a1be-2d16-4a4f-9ff9-1fd7af33f87e}",
         "name": "サクラ",
-        "status": "咲き始め",
+        "status": "見頃",
         "radius_m": 1.0,
         "date": "2026-03-20",
-        "photo": "https://drive.google.com/thumbnail?id=1-pmpmPHYHqNPN_dBXQ8PciHTc3fgpPeY&sz=w800",
+        "photo": "https://drive.google.com/thumbnail?id=1Wg-DaICAG9Bw6yVjfKfY7DcOTWBLmLIj&sz=w800",
         "memo": "サクラ1"
       },
       "geometry": {
