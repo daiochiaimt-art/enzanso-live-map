@@ -324,6 +324,17 @@
                 const surveyType = props.surveyType;
                 let popupContent = `<div style="font-size: 13px;">`;
                 
+                const photoUrl = getProp(props, 'photo') || getProp(props, '写真');
+                if (photoUrl) {
+                    if (photoUrl.startsWith('http')) {
+                        // URLに置換されていれば画像として表示
+                        popupContent += `<img src="${photoUrl}" style="width:100%; max-height:250px; object-fit:cover; border-radius:5px; margin-bottom:8px;"><br>`;
+                    } else {
+                        // 置換前の場合はメッセージを表示
+                        popupContent += `<div style="color:gray; font-size:12px; margin-bottom:8px;">📷 写真同期中...</div>`;
+                    }
+                }
+                
                 if (surveyType === 'flower') {
                     popupContent += `<b>🌸 開花状況</b><hr style="margin:5px 0;">`;
                     const name = getProp(props, 'name') || getProp(props, 'flower_name') || '植物名不明';
