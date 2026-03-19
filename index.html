@@ -324,7 +324,7 @@
                 const surveyType = props.surveyType;
                 let popupContent = `<div style="font-size: 13px;">`;
                 
-                const photoUrl = getProp(props, 'photo') || getProp(props, '写真');
+                const photoUrl = getProp(props, 'photo');
                 if (photoUrl) {
                     if (photoUrl.startsWith('http')) {
                         // URLに置換されていれば画像として表示
