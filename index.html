@@ -122,6 +122,7 @@
             <option value="36.3355, 137.6800, 18">🏕️ ヒュッテ西岳</option>
             <option value="36.3378, 137.6550, 18">🏕️ ヒュッテ大槍</option>
             <option value="36.3936, 137.7268, 19">🏕️ 合戦小屋（かっせんごや）</option>
+            <option value="35.85875319577488, 139.1549747300509">🏕️ 棒ノ嶺</option>
         </select>
         <button class="jump-btn" onclick="executeJump()">この場所へ移動する</button>
     </div>
@@ -336,6 +337,15 @@
             "type": "FeatureCollection",
             "features": filteredFeatures
         }, {
+        	style: function (feature) {
+                if (feature.geometry.type !== 'Point') {
+                    return {
+                        stroke: false,  // 枠線を消す
+                        fillColor: getThemeColor(feature.properties, feature.properties.surveyType), 
+                        fillOpacity: 0.8 
+                    };
+                }
+            },
             pointToLayer: function (feature, latlng) {
                 const props = feature.properties;
                 const surveyType = props.surveyType;
