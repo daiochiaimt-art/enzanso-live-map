@@ -16,16 +16,6 @@
         #legend-panel { position: absolute; bottom: 20px; right: 10px; z-index: 1000; background: rgba(255, 255, 255, 0.95); padding: 12px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.3); font-size: 12px; max-height: 80vh; overflow-y: auto; }
         .mobile-btn { display: none; position: absolute; bottom: 20px; z-index: 2000; background: #2c3e50; color: white; border: none; padding: 12px 20px; border-radius: 30px; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.3); cursor: pointer; }
 
-        @media (max-width: 600px) {
-            #btn-menu { display: block; left: 10px; }
-            #btn-legend { display: block; right: 10px; }
-            #ui-panel { top: auto; bottom: 80px; left: 50%; transform: translateX(-50%); width: 90%; max-height: 60vh; display: none; }
-            #ui-panel.show { display: block; }
-            #legend-panel { bottom: 80px; right: 10px; max-height: 40vh; display: none; }
-            #legend-panel.show { display: block; }
-            .leaflet-control-zoom { display: none; }
-        }
-
         h3 { margin: 0 0 10px 0; font-size: 15px; color: #333; border-bottom: 2px solid #2c3e50; padding-bottom: 5px;}
         .control-group { margin-bottom: 12px; }
         label { font-size: 12px; font-weight: bold; color: #555; display: block; margin-bottom: 2px;}
@@ -38,6 +28,7 @@
         .color-box { width: 15px; height: 15px; margin-right: 8px; border: 1px solid #999; }
         .circle-box { border-radius: 50%; } 
 
+        /* --- 究極のダウンロード防止モーダルCSS --- */
         .modal {
             display: none; position: fixed; z-index: 2000;
             padding-top: 30px; left: 0; top: 0; width: 100%; height: 100%;
@@ -58,9 +49,30 @@
         }
         .close-modal:hover { color: #bbb; }
 
+        /* ポップアップ内の画像用の共通クラス */
+        .popup-img-box {
+            width: 100%; height: 200px; 
+            background-size: cover; background-position: center; 
+            border-radius: 5px; margin-bottom: 8px; cursor: zoom-in;
+        }
+
+        /* --- モバイル専用の調整 --- */
         @media (max-width: 600px) {
+            #btn-menu { display: block; left: 10px; }
+            #btn-legend { display: block; right: 10px; }
+            #ui-panel { top: auto; bottom: 80px; left: 50%; transform: translateX(-50%); width: 90%; max-height: 60vh; display: none; }
+            #ui-panel.show { display: block; }
+            #legend-panel { bottom: 80px; right: 10px; max-height: 40vh; display: none; }
+            #legend-panel.show { display: block; }
+            .leaflet-control-zoom { display: none; }
+
             #modalImage { width: 100%; height: 75vh; margin-top: 20px;}
             .close-modal { right: 20px; top: 5px; }
+
+            .popup-img-box { height: 110px; margin-bottom: 5px; } /* 画像の高さを半減 */
+            .leaflet-popup-content { font-size: 11px; margin: 10px; line-height: 1.3; } /* 文字と余白を詰める */
+            .leaflet-popup-content b { font-size: 12px; }
+            hr { margin: 4px 0; border: 0; border-top: 1px dashed #ccc; } /* 線の余白を詰める */
         }
     </style>
 </head>
@@ -401,42 +413,61 @@
                 const photoUrl = getProp(props, 'photo');
                 if (photoUrl && photoUrl.startsWith('http')) {
                     
-                    popupContent += `
-                        <div onclick="openModal('${photoUrl}')" style="
-                            width:100%; height:200px; 
-                            background-image: url('${photoUrl}'); 
-                            background-size: cover; background-position: center; 
-                            border-radius:5px; margin-bottom:8px; cursor:zoom-in;">
-                        </div><br>`;
+                    popupContent += `<div onclick="openModal('${photoUrl}')" class="popup-img-box" style="background-image: url('${photoUrl}');"></div>`;
                 }
                 
                 if (surveyType === 'flower' || surveyType === 'autumn') {
                     const title = surveyType === 'flower' ? '🌸 開花状況' : '🍁 紅葉状況';
-                    popupContent += `<b>${title}</b><hr style="margin:5px 0;">`;
+                    popupContent += `<b>${title}</b><hr>`;
                     popupContent += `<b>種類:</b> ${getProp(props, 'name') || '不明'}<br>`;
                     popupContent += `<b>状況:</b> <span style="font-size:15px; font-weight:bold;">${getProp(props, 'status') || '不明'}</span><br>`;
                     popupContent += `<b>確認日:</b> ${getProp(props, 'date') || '-'}<br>`;
                     
                     const memo = getProp(props, 'memo');
-                    if(memo) popupContent += `<br><b>📝 メモ:</b><br><span style="color:#555;">${memo}</span><br>`;
+                    if(memo) popupContent += `<br><b>📝 メモ:</b><br><span style="color:#555;">${memo}</span>`;
                 } 
                 else {
+                   
                     popupContent += `<b>📡 キャリア:</b> ${getProp(props, 'carrier') || '不明'}<br>`;
                     popupContent += `<b>📶 電波強度:</b> ${getProp(props, 'signallevel') || '-'}<br>`;
                     
                     if (surveyType === 'outdoor') {
+                        
                         const weather = getProp(props, 'weather') || getProp(props, '天気') || '不明';
+                        const windDir = getProp(props, 'winddirection') || getProp(props, '風向') || '';
+                        const windStr = getProp(props, 'windstrength') || getProp(props, '風力') || '';
+                        const windDisplay = windDir ? `${windDir} / ${windStr}` : '-';
+                        
                         popupContent += `<b>☁️ 天気:</b> ${weather}<br>`;
+                        popupContent += `<b>🌬️ 風:</b> ${windDisplay}<br>`;
+                    } 
+                    if (surveyType === 'indoor') {
+                        
+                        const building = getProp(props, 'building') || getProp(props, '建物');
+                        const floor = getProp(props, 'floor') || getProp(props, '階層');
+                        if(building) popupContent += `<b>🏠 建物:</b> ${building}<br>`;
+                        if(floor) popupContent += `<b>🏢 階層:</b> ${floor}<br>`;
                     }
                 }
                 
                 popupContent += `</div>`;
-                layer.bindPopup(popupContent, { minWidth: 200, maxWidth: 300 });
+                
+                // スマホ画面の時は、ポップアップの最大幅を狭くする
+                const maxW = window.innerWidth < 600 ? 220 : 300;
+                layer.bindPopup(popupContent, { minWidth: 150, maxWidth: maxW });
             }
         }).addTo(map);
     }
 
-    function jumpTo(lat, lng, zoom) { map.flyTo([lat, lng], zoom, { duration: 1.5 }); }
+    // ★復元：ジャンプした時にメニューも凡例も両方自動で閉じる
+    function jumpTo(lat, lng, zoom) { 
+        map.flyTo([lat, lng], zoom, { duration: 1.5 }); 
+        if (window.innerWidth <= 600) {
+            document.getElementById('ui-panel').classList.remove('show');
+            document.getElementById('legend-panel').classList.remove('show');
+        }
+    }
+    
     function executeJump() {
         const val = document.getElementById('jump-select').value;
         const parts = val.split(',');
