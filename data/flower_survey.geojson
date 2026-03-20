@@ -65,6 +65,25 @@
           35.856983
         ]
       }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "site_id": "{6eb06b35-9786-4cd0-a844-b907f61cbdbe}",
+        "name": null,
+        "status": "散り始め",
+        "radius_m": null,
+        "date": "2026-03-20",
+        "photo": "https://drive.google.com/thumbnail?id=1Wr1ym3dORJqpyJq7H-EcwYpHZK5-LbU5&sz=w800",
+        "memo": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          139.154941,
+          35.858736
+        ]
+      }
     }
   ]
 }
