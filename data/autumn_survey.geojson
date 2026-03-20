@@ -46,6 +46,25 @@
           35.858736
         ]
       }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "site_id": "{790a9a2c-dcff-4540-bf81-e63f77478eb0}",
+        "name": null,
+        "status": "落葉",
+        "radius_m": null,
+        "date": "2026-03-21",
+        "photo": "https://drive.google.com/thumbnail?id=1QNwBhUZbk_O6-ZOhhxTxmFygV3xu_Ek6&sz=w800",
+        "memo": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          139.155074,
+          35.858683
+        ]
+      }
     }
   ]
 }
