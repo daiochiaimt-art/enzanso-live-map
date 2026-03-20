@@ -122,7 +122,7 @@
             <option value="36.3355, 137.6800, 18">🏕️ ヒュッテ西岳</option>
             <option value="36.3378, 137.6550, 18">🏕️ ヒュッテ大槍</option>
             <option value="36.3936, 137.7268, 19">🏕️ 合戦小屋（かっせんごや）</option>
-            <option value="35.85875319577488, 139.1549747300509">🏕️ 棒ノ嶺</option>
+            <option value="35.85875319577488, 139.1549747300509, 16">🏕️ 棒ノ嶺</option>
         </select>
         <button class="jump-btn" onclick="executeJump()">この場所へ移動する</button>
     </div>
@@ -388,7 +388,6 @@
                 if (surveyType === 'flower' || surveyType === 'autumn') {
                     const title = surveyType === 'flower' ? '🌸 開花状況' : '🍁 紅葉状況';
                     popupContent += `<b>${title}</b><hr style="margin:5px 0;">`;
-                    popupContent += `<b>観測ID:</b> <span style="font-size:10px; color:gray;">${getProp(props, 'site_id') || '-'}</span><br>`;
                     popupContent += `<b>種類:</b> ${getProp(props, 'name') || '不明'}<br>`;
                     popupContent += `<b>状況:</b> <span style="font-size:15px; font-weight:bold;">${getProp(props, 'status') || '不明'}</span><br>`;
                     popupContent += `<b>確認日:</b> ${getProp(props, 'date') || '-'}<br>`;
