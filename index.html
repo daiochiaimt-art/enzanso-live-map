@@ -38,56 +38,33 @@
         .color-box { width: 15px; height: 15px; margin-right: 8px; border: 1px solid #999; }
         .circle-box { border-radius: 50%; } 
 
-        .nature-img-wrapper {
-            position: relative;
-            display: inline-block;
-            width: 100%;
-            cursor: zoom-in;
+        .modal {
+            display: none; position: fixed; z-index: 2000;
+            padding-top: 30px; left: 0; top: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            user-select: none;
         }
         
-        .nature-img-overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 255, 255, 0);
-            z-index: 10;
-        }
-
-        .modal {
-            display: none;
-            position: fixed; z-index: 2000;
-            padding-top: 50px; left: 0; top: 0; width: 100%; height: 100%;
-            overflow: auto; background-color: rgba(0,0,0,0.9);
-        }
-
-        .modal-content {
-            margin: auto; display: block; width: 80%; max-width: 1000px;
-            max-height: 85vh; object-fit: contain;
-            border: 2px solid white; border-radius: 5px;
-            z-index: 2001;
-        }
-
-        .modal-overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 255, 255, 0);
-            z-index: 2010;
-            cursor: zoom-out;
+        #modalImage {
+            margin: auto; display: block; width: 90%; max-width: 1000px; height: 85vh;
+            background-size: contain; background-repeat: no-repeat; background-position: center;
+            border-radius: 5px; cursor: zoom-out;
         }
 
         .close-modal {
             position: absolute; top: 15px; right: 35px; color: #f1f1f1;
             font-size: 40px; font-weight: bold; transition: 0.3s; cursor: pointer;
-            z-index: 2020
+            z-index: 2020;
         }
-        .close-modal:hover, .close-modal:focus { color: #bbb; text-decoration: none; }
+        .close-modal:hover { color: #bbb; }
 
         @media (max-width: 600px) {
-            .modal-content { width: 95%; }
-            .close-modal { right: 20px; top: 10px; }
+            #modalImage { width: 100%; height: 75vh; margin-top: 20px;}
+            .close-modal { right: 20px; top: 5px; }
         }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;" ondragstart="return false;">
 
 <button id="btn-menu" class="mobile-btn" onclick="toggleMenu()">⚙️ メニュー</button>
 <button id="btn-legend" class="mobile-btn" onclick="toggleLegend()">📖 凡例</button>
@@ -146,10 +123,11 @@
 <div id="legend-panel"></div>
 <div id="map"></div>
 
-<div id="imageModal" class="modal">
-    <span class="close-modal" onclick="closeModal()">&times;</span>
-    <div class="modal-overlay" onclick="closeModal()"></div> <img class="modal-content" id="modalImage">
+<div id="imageModal" class="modal" onclick="closeModal()">
+    <span class="close-modal">&times;</span>
+    <div id="modalImage"></div>
 </div>
+
 <script>
     function toggleMenu() { document.getElementById('ui-panel').classList.toggle('show'); }
     function toggleLegend() { document.getElementById('legend-panel').classList.toggle('show'); }
@@ -379,10 +357,10 @@
             "type": "FeatureCollection",
             "features": filteredFeatures
         }, {
-        	style: function (feature) {
+            style: function (feature) {
                 if (feature.geometry.type !== 'Point') {
                     return {
-                        stroke: false,  // 枠線を消す
+                        stroke: false, 
                         fillColor: getThemeColor(feature.properties, feature.properties.surveyType), 
                         fillOpacity: 0.8 
                     };
@@ -422,9 +400,13 @@
 
                 const photoUrl = getProp(props, 'photo');
                 if (photoUrl && photoUrl.startsWith('http')) {
+                    
                     popupContent += `
-                        <div class="nature-img-wrapper" onclick="openModal('${photoUrl}')">
-                            <div class="nature-img-overlay"></div> <img src="${photoUrl}" style="width:100%; max-height:250px; object-fit:cover; border-radius:5px; margin-bottom:8px;">
+                        <div onclick="openModal('${photoUrl}')" style="
+                            width:100%; height:200px; 
+                            background-image: url('${photoUrl}'); 
+                            background-size: cover; background-position: center; 
+                            border-radius:5px; margin-bottom:8px; cursor:zoom-in;">
                         </div><br>`;
                 }
                 
@@ -461,16 +443,14 @@
         if(parts.length === 3) jumpTo(parseFloat(parts[0]), parseFloat(parts[1]), parseInt(parts[2], 10));
     }
 
-    // 画像拡大モーダルを開く関数
     function openModal(url) {
-        document.getElementById("modalImage").src = url;
+        document.getElementById("modalImage").style.backgroundImage = `url('${url}')`;
         document.getElementById("imageModal").style.display = "block";
     }
 
-    // モーダルを閉じる関数
     function closeModal() {
         document.getElementById("imageModal").style.display = "none";
-        document.getElementById("modalImage").src = ""; // 画像をクリアしてメモリ節約
+        document.getElementById("modalImage").style.backgroundImage = "none";
     }
 </script>
 
