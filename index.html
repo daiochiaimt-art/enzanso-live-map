@@ -156,7 +156,13 @@
     function toggleMenu() { document.getElementById('ui-panel').classList.toggle('show'); }
     function toggleLegend() { document.getElementById('legend-panel').classList.toggle('show'); }
 
-    const map = L.map('map', { maxZoom: 22, zoomControl: false }).setView([36.3992, 137.7152], 16);
+    const urlParams = new URLSearchParams(window.location.search);
+    const startLat = parseFloat(urlParams.get('lat')) || 36.3992; 
+    const startLng = parseFloat(urlParams.get('lng')) || 137.7152; 
+    const startZoom = parseInt(urlParams.get('zoom')) || 18; 
+
+    // 取得した座標を中心にマップ描画
+    const map = L.map('map', { maxZoom: 22, zoomControl: false }).setView([startLat, startLng], startZoom);
     L.control.zoom({ position: 'topright' }).addTo(map);
     L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png', { maxNativeZoom: 18, maxZoom: 22 }).addTo(map);
 
