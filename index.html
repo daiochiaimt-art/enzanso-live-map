@@ -28,7 +28,7 @@
         .color-box { width: 15px; height: 15px; margin-right: 8px; border: 1px solid #999; }
         .circle-box { border-radius: 50%; } 
 
-        /* --- 究極のダウンロード防止モーダルCSS --- */
+        /* ダウンロード防止モーダルCSS */
         .modal {
             display: none; position: fixed; z-index: 2000;
             padding-top: 30px; left: 0; top: 0; width: 100%; height: 100%;
@@ -49,14 +49,13 @@
         }
         .close-modal:hover { color: #bbb; }
 
-        /* ポップアップ内の画像用の共通クラス */
         .popup-img-box {
             width: 100%; height: 200px; 
             background-size: cover; background-position: center; 
             border-radius: 5px; margin-bottom: 8px; cursor: zoom-in;
         }
 
-        /* --- モバイル専用の調整 --- */
+        /* モバイル専用の調整 */
         @media (max-width: 600px) {
             #btn-menu { display: block; left: 10px; }
             #btn-legend { display: block; right: 10px; }
@@ -69,10 +68,10 @@
             #modalImage { width: 100%; height: 75vh; margin-top: 20px;}
             .close-modal { right: 20px; top: 5px; }
 
-            .popup-img-box { height: 110px; margin-bottom: 5px; } /* 画像の高さを半減 */
-            .leaflet-popup-content { font-size: 11px; margin: 10px; line-height: 1.3; } /* 文字と余白を詰める */
+            .popup-img-box { height: 110px; margin-bottom: 5px; }
+            .leaflet-popup-content { font-size: 11px; margin: 10px; line-height: 1.3; }
             .leaflet-popup-content b { font-size: 12px; }
-            hr { margin: 4px 0; border: 0; border-top: 1px dashed #ccc; } /* 線の余白を詰める */
+            hr { margin: 4px 0; border: 0; border-top: 1px dashed #ccc; }
         }
     </style>
 </head>
@@ -147,6 +146,11 @@
     const map = L.map('map', { maxZoom: 22, zoomControl: false }).setView([36.3992, 137.7152], 16);
     L.control.zoom({ position: 'topright' }).addTo(map);
     L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png', { maxNativeZoom: 18, maxZoom: 22 }).addTo(map);
+
+    // ★追加：色の重なり（濃縮）を防ぐための「半透明の専用クリアファイル（ペイン）」を作成
+    map.createPane('gridPane');
+    map.getPane('gridPane').style.zIndex = 400; 
+    map.getPane('gridPane').style.opacity = 0.6; 
 
     let currentLayer = null;
     let allFeatures = [];
@@ -374,7 +378,8 @@
                     return {
                         stroke: false, 
                         fillColor: getThemeColor(feature.properties, feature.properties.surveyType), 
-                        fillOpacity: 0.8 
+                        fillOpacity: 1.0, 
+                        pane: 'gridPane' 
                     };
                 }
             },
@@ -394,11 +399,12 @@
                         return L.circleMarker(latlng, { radius: 8, color: '#fff', weight: 1, fillColor: bgColor, fillOpacity: opacity, opacity: opacity });
                     }
                 } else {
-                    const grid = 0.00001; 
+                    // ★修正：図形自体は透明度1.0（透けない）で描き、透明度0.4の「gridPane」の中にいれる！
+                    const grid = surveyType === 'indoor' ? 0.00003 : 0.0001;
                     const snapLat = Math.floor(latlng.lat / grid) * grid;
                     const snapLng = Math.floor(latlng.lng / grid) * grid;
                     const bounds = [[snapLat, snapLng], [snapLat + grid, snapLng + grid]];
-                    return L.rectangle(bounds, { color: '#555', weight: 1, fillColor: bgColor, fillOpacity: 0.8 });
+                    return L.rectangle(bounds, { color: '#555', weight: 0.5, fillColor: bgColor, fillOpacity: 1.0, pane: 'gridPane' });
                 }
             },
             onEachFeature: function (feature, layer) {
@@ -412,7 +418,6 @@
 
                 const photoUrl = getProp(props, 'photo');
                 if (photoUrl && photoUrl.startsWith('http')) {
-                    
                     popupContent += `<div onclick="openModal('${photoUrl}')" class="popup-img-box" style="background-image: url('${photoUrl}');"></div>`;
                 }
                 
@@ -427,12 +432,10 @@
                     if(memo) popupContent += `<br><b>📝 メモ:</b><br><span style="color:#555;">${memo}</span>`;
                 } 
                 else {
-                   
                     popupContent += `<b>📡 キャリア:</b> ${getProp(props, 'carrier') || '不明'}<br>`;
                     popupContent += `<b>📶 電波強度:</b> ${getProp(props, 'signallevel') || '-'}<br>`;
                     
                     if (surveyType === 'outdoor') {
-                        
                         const weather = getProp(props, 'weather') || getProp(props, '天気') || '不明';
                         const windDir = getProp(props, 'winddirection') || getProp(props, '風向') || '';
                         const windStr = getProp(props, 'windstrength') || getProp(props, '風力') || '';
@@ -442,7 +445,6 @@
                         popupContent += `<b>🌬️ 風:</b> ${windDisplay}<br>`;
                     } 
                     if (surveyType === 'indoor') {
-                        
                         const building = getProp(props, 'building') || getProp(props, '建物');
                         const floor = getProp(props, 'floor') || getProp(props, '階層');
                         if(building) popupContent += `<b>🏠 建物:</b> ${building}<br>`;
@@ -452,14 +454,12 @@
                 
                 popupContent += `</div>`;
                 
-                // スマホ画面の時は、ポップアップの最大幅を狭くする
                 const maxW = window.innerWidth < 600 ? 220 : 300;
                 layer.bindPopup(popupContent, { minWidth: 150, maxWidth: maxW });
             }
         }).addTo(map);
     }
 
-    // ★復元：ジャンプした時にメニューも凡例も両方自動で閉じる
     function jumpTo(lat, lng, zoom) { 
         map.flyTo([lat, lng], zoom, { duration: 1.5 }); 
         if (window.innerWidth <= 600) {
