@@ -28,6 +28,26 @@
           0.0
         ]
       }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "site_id": "{60fb94ad-2921-4699-b4e6-cceffe2368f8}",
+        "name": "棒ノ嶺",
+        "status": "色づき始め",
+        "radius_m": 200.0,
+        "date": "2026-03-19",
+        "photo": "https://drive.google.com/thumbnail?id=17lKs74hRXwQXvak6LIjIvHTCBWPHKjSe&sz=w800",
+        "memo": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          139.155095,
+          35.858712,
+          0.0
+        ]
+      }
     }
   ]
 }
