@@ -15,7 +15,7 @@
         "site_id": "{3ca2d12d-9e1f-4c39-a2ca-5b0fe34ff5c8}",
         "name": "コマクサ",
         "status": "つぼみ",
-        "radius_m": 5.0,
+        "radius_m": 15.0,
         "date": "2026-03-20",
         "photo": "https://drive.google.com/thumbnail?id=1zbBU4fm-PP6spoZUYd9jEJgUdyoEZQ9e&sz=w800",
         "memo": "コマクサa"
@@ -34,7 +34,7 @@
         "site_id": "{8c18a1be-2d16-4a4f-9ff9-1fd7af33f87e}",
         "name": "サクラ",
         "status": "見頃",
-        "radius_m": 1.0,
+        "radius_m": 10.0,
         "date": "2026-03-20",
         "photo": "https://drive.google.com/thumbnail?id=1Wg-DaICAG9Bw6yVjfKfY7DcOTWBLmLIj&sz=w800",
         "memo": "サクラ1"
@@ -69,19 +69,19 @@
     {
       "type": "Feature",
       "properties": {
-        "site_id": "{6eb06b35-9786-4cd0-a844-b907f61cbdbe}",
-        "name": null,
-        "status": "散り始め",
-        "radius_m": null,
-        "date": "2026-03-20",
-        "photo": "https://drive.google.com/thumbnail?id=1Wr1ym3dORJqpyJq7H-EcwYpHZK5-LbU5&sz=w800",
+        "site_id": "{618b1c3e-611c-43e4-b7d2-685242c0cf01}",
+        "name": "ふきのとう",
+        "status": "つぼみ",
+        "radius_m": 10.0,
+        "date": "2026-03-18",
+        "photo": "DSC_0088.JPG",
         "memo": null
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          139.154941,
-          35.858736
+          139.155007,
+          35.858756
         ]
       }
     }
