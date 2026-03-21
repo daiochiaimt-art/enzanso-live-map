@@ -97,11 +97,26 @@
     <div id="filter-rf-group">
         <div class="control-group">
             <label>キャリア</label>
-            <select id="filter-carrier" onchange="applyFilters()"><option value="ALL">すべて表示</option><option value="au">au</option><option value="docomo">docomo</option><option value="Wi-Fi">Wi-Fi</option></select>
+            <select id="filter-carrier" onchange="applyFilters()">
+                <option value="ALL">すべて表示</option>
+                <option value="au">au</option>
+                <option value="docomo">docomo</option>
+                <option value="Wi-Fi">Wi-Fi</option>
+            </select>
         </div>
-        <div class="control-group">
+        <div class="control-group" id="filter-weather-group">
             <label>天気</label>
-            <select id="filter-weather" onchange="applyFilters()"><option value="ALL">すべて表示</option><option value="快晴">快晴</option><option value="晴れ">晴れ</option><option value="曇">曇り</option><option value="雨">雨</option><option value="雪">雪</option></select>
+            <select id="filter-weather" onchange="applyFilters()">
+                <option value="ALL">すべて表示</option>
+                <option value="快晴">快晴</option><option value="晴れ">晴れ</option>
+                <option value="曇">曇り</option><option value="雨">雨</option><option value="雪">雪</option>
+            </select>
+        </div>
+        <div class="control-group" id="filter-floor-group" style="display: none;">
+            <label>階層</label>
+            <select id="filter-floor" onchange="applyFilters()">
+                <option value="ALL">すべての階層</option>
+            </select>
         </div>
     </div>
 
@@ -270,16 +285,52 @@
         });
     }
 
+    function populateFloorDropdown() {
+        const select = document.getElementById('filter-floor');
+        // 一旦中身をリセットして「すべての階層」だけにする
+        select.innerHTML = '<option value="ALL">すべての階層</option>';
+        
+        const floorSet = new Set();
+        
+        allFeatures.forEach(f => {
+            if (f.properties.surveyType === 'indoor') {
+                const floor = getProp(f.properties, 'floor') || getProp(f.properties, '階層');
+                if (floor) floorSet.add(floor);
+            }
+        });
+
+        // 昇順（1F, 2F...）に並び替えてドロップダウンに追加
+        Array.from(floorSet).sort().forEach(floor => {
+            const option = document.createElement('option');
+            option.value = floor; 
+            option.textContent = floor; 
+            select.appendChild(option);
+        });
+    }
+    
     function updateUIAndFilters() {
         const mapTheme = document.getElementById('map-theme').value;
         const rfGroup = document.getElementById('filter-rf-group');
         const natureGroup = document.getElementById('filter-nature-group');
+        const weatherGroup = document.getElementById('filter-weather-group');
+        const floorGroup = document.getElementById('filter-floor-group');
 
         if (mapTheme === 'flower' || mapTheme === 'autumn') {
             rfGroup.style.display = 'none'; natureGroup.style.display = 'block';
             populateSpeciesDropdown(mapTheme);
         } else {
             rfGroup.style.display = 'block'; natureGroup.style.display = 'none';
+            if (mapTheme === 'indoor') {
+                weatherGroup.style.display = 'none';
+                floorGroup.style.display = 'block';
+                populateFloorDropdown();
+            } else if (mapTheme === 'outdoor') {
+                weatherGroup.style.display = 'block';
+                floorGroup.style.display = 'none';
+            } else { // ALLの時
+                weatherGroup.style.display = 'block';
+                floorGroup.style.display = 'none'; 
+            }
         }
         applyFilters();
     }
@@ -289,6 +340,7 @@
         const selectedCarrier = document.getElementById('filter-carrier').value;
         const selectedWeather = document.getElementById('filter-weather').value;
         const selectedSpecies = document.getElementById('filter-species').value;
+        const selectedFloor = document.getElementById('filter-floor').value;
 
         updateLegend(mapTheme);
 
@@ -358,6 +410,10 @@
                 if (surveyType === 'outdoor' && selectedWeather !== "ALL") {
                     const weather = getProp(props, 'weather') || '';
                     if (weather !== selectedWeather && !weather.includes(selectedWeather)) return false;
+                }
+                if (surveyType === 'indoor' && selectedFloor !== "ALL") { 
+                    const floor = getProp(props, 'floor') || getProp(props, '階層') || '';
+                    if (floor !== selectedFloor) return false; 
                 }
             }
             if (surveyType === 'flower' || surveyType === 'autumn') {
