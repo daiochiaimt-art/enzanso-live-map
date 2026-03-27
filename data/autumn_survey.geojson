@@ -68,6 +68,26 @@
           0.0
         ]
       }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "site_id": "{8bb73d61-c7d9-4aca-b4e5-28a4023b47cf}",
+        "name": "カエデ",
+        "status": "青葉",
+        "radius_m": 500.0,
+        "date": "2026-03-28",
+        "photo": "https://drive.google.com/thumbnail?id=1FYom1bxGhHp_A2YoTvE7vVywsNs1az4E&sz=w800",
+        "memo": "テスト"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          139.163237,
+          35.85087,
+          0.0
+        ]
+      }
     }
   ]
 }
