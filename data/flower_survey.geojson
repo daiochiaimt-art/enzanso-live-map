@@ -85,6 +85,26 @@
           0.0
         ]
       }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "site_id": "{26dc55a3-8c28-4bd3-b315-09d63426481b}",
+        "name": "サンフラワー",
+        "status": "見頃",
+        "radius_m": 200.0,
+        "date": "2026-03-28",
+        "photo": "https://drive.google.com/thumbnail?id=1sVtATtUIOO2zshf1NEy0McRMbpRrLzrl&sz=w800",
+        "memo": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          139.172063,
+          35.869765,
+          0.0
+        ]
+      }
     }
   ]
 }

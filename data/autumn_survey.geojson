@@ -48,6 +48,26 @@
           0.0
         ]
       }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "site_id": "{e97961b9-020e-4947-b74d-fddf6bdbf9c9}",
+        "name": "カエデ",
+        "status": "色づき始め",
+        "radius_m": 500.0,
+        "date": "2026-03-23",
+        "photo": "https://drive.google.com/thumbnail?id=16pm3a_N0DdFKhQ_M6CMlf1htZ-gwWTyG&sz=w800",
+        "memo": "かきく"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          139.163504,
+          35.850915,
+          0.0
+        ]
+      }
     }
   ]
 }
