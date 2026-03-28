@@ -16,6 +16,10 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+
     <link rel="stylesheet" href="style.css" />
 
 </head>
@@ -35,6 +39,7 @@
             <option value="outdoor">📶 電波強度（屋外調査）</option>
             <option value="flower">🌸 開花状況</option>
             <option value="autumn">🍁 紅葉状況</option>
+            <option value="animal">🐾 動物・鳥類観察</option>
         </select>
     </div>
 
@@ -51,8 +56,12 @@
             <label>天気</label>
             <select id="filter-weather" onchange="applyFilters()">
                 <option value="ALL">すべて表示</option>
-                <option value="快晴">快晴</option><option value="晴れ">晴れ</option>
-                <option value="曇">曇り</option><option value="雨">雨</option><option value="雪">雪</option>
+                <option value="快晴">快晴</option>
+                <option value="晴れ">晴れ</option>
+                <option value="曇">曇り</option>
+                <option value="雨">雨</option>
+                <option value="雪">雪</option>
+                <option value="ガス">ガス</option>
             </select>
         </div>
         <div class="control-group" id="filter-wind-str-group" style="display: none;">
@@ -65,7 +74,7 @@
                 <option value="無風">無風</option>
             </select>
         </div>
-        <div class="control-group" id="filter-wind-dir-group" style="display: none;">
+        <div class="control-group" id="filter-wind-dir-group">
             <label>風向</label>
             <select id="filter-wind-dir" onchange="applyFilters()">
                 <option value="ALL" selected>すべて表示</option>
@@ -94,13 +103,13 @@
                 <option value="ALL">すべての種類</option>
             </select>
         </div>
-        <div class="control-group">
+        <div class="control-group" id="filter-nature-weather-group">
             <label>🌤️ 天気で絞り込み</label>
-            <select id="filter-weather" onchange="applyFilters()">
+            <select id="filter-nature-weather" onchange="applyFilters()">
                 <option value="ALL">すべての天気</option>
             </select>
         </div>
-        <div class="control-group">
+        <div class="control-group" id="filter-nature-date-group">
             <label>📅 日付で絞り込み</label>
             <input type="date" id="filter-date" onchange="applyFilters()" style="width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px;">
             <button onclick="document.getElementById('filter-date').value=''; applyFilters();" style="margin-top: 8px; width: 100%; padding: 6px; background-color: #f1f1f1; border: 1px solid #ccc; border-radius: 4px; cursor: pointer;">日付をクリア</button>

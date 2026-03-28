@@ -34,7 +34,6 @@ function toggleMenu() { document.getElementById('ui-panel').classList.toggle('sh
     let currentLayer = null;
     let allFeatures = [];
     
-    // 動物（ライチョウ等）を円でまとめるクラスタリンググループの設定
     let animalClusterGroup = L.markerClusterGroup({
         disableClusteringAtZoom: 16,
         zoomToBoundsOnClick: false
@@ -56,7 +55,6 @@ function toggleMenu() { document.getElementById('ui-panel').classList.toggle('sh
         const speciesFilter = document.getElementById('filter-species') ? document.getElementById('filter-species').value : 'ALL';
         const animalName = speciesFilter !== 'ALL' ? speciesFilter : '動物・鳥類';
 
-        // ★修正：エラーの原因になりやすい複雑な埋め込みを、安全な足し算（+）にしました
         const popupContent = 
             '<div style="text-align:center; margin-bottom:8px; padding-bottom:5px; border-bottom:2px dashed #ccc;">' +
                 '<b><span style="font-size:16px; color:#2c3e50;">🐾 ' + animalName + ' 計 ' + markers.length + ' 件</span></b><br>' +
@@ -220,7 +218,7 @@ function toggleMenu() { document.getElementById('ui-panel').classList.toggle('sh
         const floorSet = new Set();
         allFeatures.forEach(f => {
             if (f.properties.surveyType === 'indoor') {
-                const floor = getProp(f.properties, 'floor') || getProp(props, '階層');
+                const floor = getProp(f.properties, 'floor') || getProp(f.properties, '階層');
                 if (floor) floorSet.add(floor);
             }
         });
@@ -246,10 +244,27 @@ function toggleMenu() { document.getElementById('ui-panel').classList.toggle('sh
             if(natureGroup) natureGroup.style.display = 'block';
             
             const speciesLabel = document.getElementById('filter-species-label');
+            const natureWeatherGroup = document.getElementById('filter-nature-weather-group');
+            const natureDateGroup = document.getElementById('filter-nature-date-group');
+
             if(speciesLabel) {
-                if (mapTheme === 'flower') speciesLabel.innerText = '🌸 植物の種類';
-                else if (mapTheme === 'autumn') speciesLabel.innerText = '🍁 樹木の種類';
-                else if (mapTheme === 'animal') speciesLabel.innerText = '🐾 動物の種類';
+                // ★開花と紅葉のときは天気と日付を隠す
+                if (mapTheme === 'flower') {
+                    speciesLabel.innerText = '🌸 植物の種類';
+                    if(natureWeatherGroup) natureWeatherGroup.style.display = 'none';
+                    if(natureDateGroup) natureDateGroup.style.display = 'none';
+                }
+                else if (mapTheme === 'autumn') {
+                    speciesLabel.innerText = '🍁 樹木の種類';
+                    if(natureWeatherGroup) natureWeatherGroup.style.display = 'none';
+                    if(natureDateGroup) natureDateGroup.style.display = 'none';
+                }
+                // ★動物のときは表示する
+                else if (mapTheme === 'animal') {
+                    speciesLabel.innerText = '🐾 動物の種類';
+                    if(natureWeatherGroup) natureWeatherGroup.style.display = 'block';
+                    if(natureDateGroup) natureDateGroup.style.display = 'block';
+                }
             }
             populateNatureDropdowns(mapTheme);
         } else {
@@ -390,12 +405,15 @@ function toggleMenu() { document.getElementById('ui-panel').classList.toggle('sh
                 const name = getProp(props, 'name') || getProp(props, '名前');
                 if (selectedSpecies !== "ALL" && name !== selectedSpecies) return false;
 
-                const fWeather = getProp(props, 'weather') || getProp(props, '天気');
-                if (selectedNatureWeather !== "ALL" && fWeather !== selectedNatureWeather) return false;
+                // ★動物（animal）のときのみ天気と日付の絞り込みを適用する
+                if (surveyType === 'animal') {
+                    const fWeather = getProp(props, 'weather') || getProp(props, '天気');
+                    if (selectedNatureWeather !== "ALL" && fWeather !== selectedNatureWeather) return false;
 
-                if (selectedDate) {
-                    const fDate = getProp(props, 'date') || getProp(props, '日付') || '';
-                    if (!fDate.startsWith(selectedDate)) return false;
+                    if (selectedDate) {
+                        const fDate = getProp(props, 'date') || getProp(props, '日付') || '';
+                        if (!fDate.startsWith(selectedDate)) return false;
+                    }
                 }
             }
             return true;
@@ -533,7 +551,6 @@ function toggleMenu() { document.getElementById('ui-panel').classList.toggle('sh
                     popupContent += '<div onclick="openModal(\'' + photoUrl + '\')" class="popup-img-box" style="background-image: url(\'' + photoUrl + '\');"></div>';
                 }
                 
-                // ★修正：エラーの原因になりやすい複雑な埋め込みを、安全な文字列結合（+）にしました
                 if (surveyType === 'flower' || surveyType === 'autumn' || surveyType === 'animal') {
                     let title = '🐾 動物・鳥類観察';
                     if (surveyType === 'flower') title = '🌸 開花状況';
