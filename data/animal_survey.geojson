@@ -1,64 +1,11 @@
 {
-  "type": "FeatureCollection",
-  "name": "animal_survey",
-  "crs": {
-    "type": "name",
-    "properties": {
-      "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
-    }
-  },
-  "xy_coordinate_resolution": 1e-06,
-  "features": [
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "カモシカ",
-        "date": "2026-03-28",
-        "weather": "晴れ",
-        "memo": "オス",
-        "photo": "https://drive.google.com/thumbnail?id=1VExHxhVT6jGZwp77vEwUA4NtprfPGzax&sz=w800"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          139.159994,
-          35.856972
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "シカ",
-        "date": "2026-03-25",
-        "weather": "曇り",
-        "memo": "メス",
-        "photo": "https://drive.google.com/thumbnail?id=1y35v3L_Ui7jk9b60VPmmTOeGulU4cMCK&sz=w800"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          139.160444,
-          35.855595
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "name": "シカ",
-        "date": "2026-03-26",
-        "weather": "曇り",
-        "memo": "オス",
-        "photo": "https://drive.google.com/thumbnail?id=1Af8mE_s31aSvzfbkQq32ayRgrY0KEHii&sz=w800"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          139.153501,
-          35.859332
-        ]
-      }
-    }
-  ]
+"type": "FeatureCollection",
+"name": "animal_survey",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"xy_coordinate_resolution": 1e-06,
+"features": [
+{ "type": "Feature", "properties": { "name": "シカ", "date": "2026-03-23", "weather": "晴れ", "memo": "オス", "photo": "DCIM/animal-survey_20260328170819990.jpg" }, "geometry": { "type": "Point", "coordinates": [ 139.159598, 35.85692 ] } },
+{ "type": "Feature", "properties": { "name": "シカ", "date": "2026-03-24", "weather": "曇り", "memo": "メス", "photo": "DCIM/animal-survey_20260328170857187.jpg" }, "geometry": { "type": "Point", "coordinates": [ 139.165042, 35.860554 ] } },
+{ "type": "Feature", "properties": { "name": "カモシカ", "date": "2026-03-25", "weather": "雨", "memo": null, "photo": "DCIM/animal-survey_20260328170939713.jpg" }, "geometry": { "type": "Point", "coordinates": [ 139.159745, 35.856378 ] } }
+]
 }
