@@ -50,45 +50,6 @@
     {
       "type": "Feature",
       "properties": {
-        "site_id": "{f7b9ec4c-56c5-4ecb-aa44-d7d2a0a9e865}",
-        "name": "サンフラワー",
-        "status": "咲き始め",
-        "radius_m": 100.0,
-        "date": "2026-03-19",
-        "photo": "https://drive.google.com/thumbnail?id=1UFS1BHNx4esy9ZJkzkcHDVQac30oVGNN&sz=w800",
-        "memo": "テスト"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          139.161498,
-          35.859577
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "site_id": "{f7b9ec4c-56c5-4ecb-aa44-d7d2a0a9e865}",
-        "name": "サンフラワー",
-        "status": "散り始め",
-        "radius_m": 100.0,
-        "date": "2026-03-28",
-        "photo": "https://drive.google.com/thumbnail?id=17J9VfK6pXWUcG2LO3QepLgtFODJNXxco&sz=w800",
-        "memo": "あああ"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          139.161498,
-          35.859577,
-          0.0
-        ]
-      }
-    },
-    {
-      "type": "Feature",
-      "properties": {
         "site_id": "{26dc55a3-8c28-4bd3-b315-09d63426481b}",
         "name": "サンフラワー",
         "status": "見頃",

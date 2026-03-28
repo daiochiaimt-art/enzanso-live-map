@@ -68,6 +68,26 @@
           0.0
         ]
       }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "site_id": "{16c551b0-ef8d-4801-9df4-7c220f59f870}",
+        "name": "棒ノ嶺山頂",
+        "status": "見頃",
+        "radius_m": 500.0,
+        "date": "2026-03-22",
+        "photo": "https://drive.google.com/thumbnail?id=1Of0-3QSqjIZb0quqUoaEcEQQ0ZGFblwy&sz=w800",
+        "memo": "えー"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          139.155175,
+          35.858665,
+          0.0
+        ]
+      }
     }
   ]
 }
